@@ -1,22 +1,46 @@
-import { Component, ElementRef, afterNextRender, inject, signal } from '@angular/core';
+import {
+  Component,
+  DOCUMENT,
+  DestroyRef,
+  ElementRef,
+  HostListener,
+  afterNextRender,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { Icon } from './icon';
 
 const INSTAGRAM_USER = 'vinicustodiio.personal';
+const WHATSAPP_NUMBER = '556285034081'; // +55 62 8503-4081
+const WHATSAPP_DISPLAY = '(62) 8503-4081';
+const WHATSAPP_MESSAGE = 'Olá, Vinícius! Quero começar a Consultoria On-line. Meu objetivo é: ';
+
+function whatsappUrl(text: string): string {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+}
 
 @Component({
   selector: 'app-root',
+  imports: [Icon],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly document = inject(DOCUMENT);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private readonly track = viewChild<ElementRef<HTMLElement>>('track');
 
   protected readonly menuOpen = signal(false);
+  protected readonly activeSlide = signal(0);
   protected readonly year = new Date().getFullYear();
 
   protected readonly instagramUser = INSTAGRAM_USER;
-  /** Abre direto o direct (DM) do Instagram. */
-  protected readonly directUrl = `https://ig.me/m/${INSTAGRAM_USER}`;
   protected readonly instagramUrl = `https://www.instagram.com/${INSTAGRAM_USER}/`;
+  protected readonly whatsappDisplay = WHATSAPP_DISPLAY;
+  protected readonly whatsappUrl = whatsappUrl(WHATSAPP_MESSAGE);
 
   protected readonly nav = [
     { label: 'Início', href: '#inicio' },
@@ -39,13 +63,13 @@ export class App {
   ];
 
   protected readonly included = [
-    { icon: '📋', title: 'Avaliação inicial', text: 'Questionário sobre seus objetivos, histórico de treino, rotina e limitações.' },
-    { icon: '🎯', title: 'Treino individualizado', text: 'Montado de acordo com os equipamentos e os dias que você tem disponíveis.' },
-    { icon: '📱', title: 'Aplicativo com vídeos', text: 'Acesso ao app com todos os exercícios e vídeos explicativos.' },
-    { icon: '📈', title: 'Progressão orientada', text: 'Séries, repetições, intervalos e progressão de cargas bem definidos.' },
-    { icon: '💬', title: 'Suporte pelo WhatsApp', text: 'Tire suas dúvidas sobre o treinamento sempre que precisar.' },
-    { icon: '🎥', title: 'Análise de vídeos', text: 'Envie seus vídeos e receba orientações sobre a execução dos exercícios.' },
-    { icon: '🔄', title: 'Revisão do treino', text: 'Ajustes conforme a sua evolução e as suas necessidades.' },
+    { icon: 'clipboard', title: 'Avaliação inicial', text: 'Questionário sobre seus objetivos, histórico de treino, rotina e limitações.' },
+    { icon: 'target', title: 'Treino individualizado', text: 'Montado de acordo com os equipamentos e os dias que você tem disponíveis.' },
+    { icon: 'smartphone', title: 'Aplicativo com vídeos', text: 'Acesso ao app com todos os exercícios e vídeos explicativos.' },
+    { icon: 'trending-up', title: 'Progressão orientada', text: 'Séries, repetições, intervalos e progressão de cargas bem definidos.' },
+    { icon: 'whatsapp', title: 'Suporte pelo WhatsApp', text: 'Tire suas dúvidas sobre o treinamento sempre que precisar.' },
+    { icon: 'video', title: 'Análise de vídeos', text: 'Envie seus vídeos e receba orientações sobre a execução dos exercícios.' },
+    { icon: 'refresh', title: 'Revisão do treino', text: 'Ajustes conforme a sua evolução e as suas necessidades.' },
   ];
 
   protected readonly steps = [
@@ -76,7 +100,10 @@ export class App {
     { name: 'Mensal', duration: '1 mês', total: 'R$ 160', monthly: '160', note: 'Ideal para começar', featured: false },
     { name: 'Trimestral', duration: '3 meses', total: 'R$ 420', monthly: '140', note: 'Economia de R$ 60', featured: false },
     { name: 'Semestral', duration: '6 meses', total: 'R$ 780', monthly: '130', note: 'Economia de R$ 180', featured: true },
-  ];
+  ].map((p) => ({
+    ...p,
+    url: whatsappUrl(`Olá, Vinícius! Tenho interesse no plano ${p.name} da Consultoria On-line. Meu objetivo é: `),
+  }));
 
   protected readonly faq = [
     {
@@ -105,34 +132,131 @@ export class App {
     },
   ];
 
+  private autoplayId: ReturnType<typeof setInterval> | undefined;
+  private autoplayPaused = false;
+  private scrollRaf = 0;
+
   constructor() {
     afterNextRender(() => {
-      const root = this.host.nativeElement as HTMLElement;
-      const items = root.querySelectorAll<HTMLElement>('.reveal');
-      if (!('IntersectionObserver' in window)) {
-        items.forEach((el) => el.classList.add('visible'));
-        return;
-      }
-      const io = new IntersectionObserver(
-        (entries) => {
-          for (const e of entries) {
-            if (e.isIntersecting) {
-              e.target.classList.add('visible');
-              io.unobserve(e.target);
-            }
-          }
-        },
-        { threshold: 0.12 },
-      );
-      items.forEach((el) => io.observe(el));
+      this.setupReveal();
+      this.startAutoplay();
+    });
+    this.destroyRef.onDestroy(() => {
+      clearInterval(this.autoplayId);
+      this.lockScroll(false);
     });
   }
 
+  // ---------- Menu mobile ----------
   protected toggleMenu(): void {
     this.menuOpen.update((v) => !v);
+    this.lockScroll(this.menuOpen());
   }
 
   protected closeMenu(): void {
+    if (!this.menuOpen()) return;
     this.menuOpen.set(false);
+    this.lockScroll(false);
+  }
+
+  @HostListener('document:keydown.escape')
+  protected onEscape(): void {
+    this.closeMenu();
+  }
+
+  @HostListener('window:resize')
+  protected onResize(): void {
+    if (window.innerWidth > 900) this.closeMenu();
+  }
+
+  private lockScroll(lock: boolean): void {
+    this.document.body.style.overflow = lock ? 'hidden' : '';
+  }
+
+  // ---------- Carrossel de resultados ----------
+  protected goTo(index: number, smooth = true): void {
+    const track = this.track()?.nativeElement;
+    if (!track) return;
+    const count = this.results.length;
+    const i = ((index % count) + count) % count;
+    const slide = track.children[i] as HTMLElement | undefined;
+    if (!slide) return;
+    const left = slide.offsetLeft - (track.clientWidth - slide.clientWidth) / 2;
+    track.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' });
+    this.activeSlide.set(i);
+  }
+
+  protected prev(): void {
+    this.goTo(this.activeSlide() - 1);
+    this.restartAutoplay();
+  }
+
+  protected next(): void {
+    this.goTo(this.activeSlide() + 1);
+    this.restartAutoplay();
+  }
+
+  protected select(i: number): void {
+    this.goTo(i);
+    this.restartAutoplay();
+  }
+
+  protected onTrackScroll(): void {
+    cancelAnimationFrame(this.scrollRaf);
+    this.scrollRaf = requestAnimationFrame(() => {
+      const track = this.track()?.nativeElement;
+      if (!track) return;
+      const center = track.scrollLeft + track.clientWidth / 2;
+      let best = 0;
+      let bestDist = Infinity;
+      Array.from(track.children).forEach((el, i) => {
+        const s = el as HTMLElement;
+        const dist = Math.abs(s.offsetLeft + s.clientWidth / 2 - center);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = i;
+        }
+      });
+      this.activeSlide.set(best);
+    });
+  }
+
+  protected pauseAutoplay(paused: boolean): void {
+    this.autoplayPaused = paused;
+  }
+
+  private startAutoplay(): void {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    clearInterval(this.autoplayId);
+    this.autoplayId = setInterval(() => {
+      if (!this.autoplayPaused && !this.document.hidden) this.goTo(this.activeSlide() + 1);
+    }, 4500);
+  }
+
+  private restartAutoplay(): void {
+    if (this.autoplayId !== undefined) this.startAutoplay();
+  }
+
+  // ---------- Animação ao rolar ----------
+  private setupReveal(): void {
+    const root = this.host.nativeElement as HTMLElement;
+    const items = root.querySelectorAll<HTMLElement>('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach((el) => el.classList.add('visible'));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0.12 },
+    );
+    items.forEach((el) => io.observe(el));
+    this.destroyRef.onDestroy(() => io.disconnect());
   }
 }

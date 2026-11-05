@@ -1,28 +1,40 @@
 <!-- HEADER -->
-<header class="header">
+<header class="header" [class.menu-open]="menuOpen()">
   <div class="container header-inner">
     <a href="#inicio" class="brand" (click)="closeMenu()">
       <img src="logo.jpeg" alt="Vinícius Custódio Personal Trainer" class="logo" width="1600" height="533" />
     </a>
 
-    <nav class="nav" [class.open]="menuOpen()">
-      @for (item of nav; track item.href) {
-        <a [href]="item.href" (click)="closeMenu()">{{ item.label }}</a>
-      }
-      <a [href]="directUrl" target="_blank" rel="noopener" class="btn btn-primary btn-sm nav-cta">Quero começar</a>
+    <nav class="nav" id="menu" [class.open]="menuOpen()" aria-label="Menu principal">
+      <div class="nav-links">
+        @for (item of nav; track item.href) {
+          <a [href]="item.href" (click)="closeMenu()">{{ item.label }}</a>
+        }
+      </div>
+      <div class="nav-actions">
+        <a [href]="instagramUrl" target="_blank" rel="noopener" class="icon-btn" aria-label="Instagram">
+          <app-icon name="instagram" [size]="20" />
+          <span class="only-mobile">&#64;{{ instagramUser }}</span>
+        </a>
+        <a [href]="whatsappUrl" target="_blank" rel="noopener" class="btn btn-primary btn-sm nav-cta">
+          <app-icon name="whatsapp" [size]="18" /> Quero começar
+        </a>
+      </div>
     </nav>
 
     <button
       class="menu-toggle"
       type="button"
-      aria-label="Abrir menu"
+      [attr.aria-label]="menuOpen() ? 'Fechar menu' : 'Abrir menu'"
       [attr.aria-expanded]="menuOpen()"
+      aria-controls="menu"
       (click)="toggleMenu()"
     >
       <span></span><span></span><span></span>
     </button>
   </div>
 </header>
+<div class="backdrop" [class.show]="menuOpen()" (click)="closeMenu()"></div>
 
 <main>
   <!-- HERO -->
@@ -47,7 +59,9 @@
         </ul>
 
         <div class="hero-actions">
-          <a [href]="directUrl" target="_blank" rel="noopener" class="btn btn-primary">Quero meu treino agora</a>
+          <a [href]="whatsappUrl" target="_blank" rel="noopener" class="btn btn-primary">
+            <app-icon name="whatsapp" [size]="20" /> Quero meu treino agora
+          </a>
           <a href="#como-funciona" class="btn btn-ghost">Como funciona</a>
         </div>
       </div>
@@ -57,14 +71,17 @@
           <img src="foto1.jpeg" alt="Vinícius Custódio, personal trainer" width="960" height="1280" fetchpriority="high" />
         </div>
         <div class="badge-card">
-          <strong>CREF 014918-G/GO</strong>
-          <span>Profissional registrado</span>
-        </div>
-        <a [href]="directUrl" target="_blank" rel="noopener" class="floating-card">
-          <span class="dot"></span>
+          <app-icon name="shield" [size]="22" class="accent" />
           <div>
-            <strong>Fale comigo no direct</strong>
-            <span>&#64;{{ instagramUser }}</span>
+            <strong>CREF 014918-G/GO</strong>
+            <span>Profissional registrado</span>
+          </div>
+        </div>
+        <a [href]="whatsappUrl" target="_blank" rel="noopener" class="floating-card">
+          <span class="wa-dot"><app-icon name="whatsapp" [size]="20" /></span>
+          <div>
+            <strong>Fale comigo no WhatsApp</strong>
+            <span>Primeiro passo em minutos</span>
           </div>
         </a>
       </div>
@@ -81,11 +98,13 @@
           O problema quase nunca é falta de vontade. É falta de um plano claro, feito para você, com
           alguém acompanhando a sua evolução.
         </p>
-        <a [href]="directUrl" target="_blank" rel="noopener" class="link-cta">Quero um plano claro →</a>
+        <a [href]="whatsappUrl" target="_blank" rel="noopener" class="link-cta">
+          Quero um plano claro <app-icon name="arrow-right" [size]="18" />
+        </a>
       </div>
       <ul class="check-list reveal">
         @for (p of pains; track p) {
-          <li><span class="x">✕</span>{{ p }}</li>
+          <li><span class="x"><app-icon name="x" [size]="14" /></span>{{ p }}</li>
         }
       </ul>
     </div>
@@ -102,7 +121,7 @@
       <div class="cards-grid">
         @for (item of included; track item.title) {
           <article class="card reveal">
-            <span class="card-icon">{{ item.icon }}</span>
+            <span class="card-icon"><app-icon [name]="item.icon" [size]="26" /></span>
             <h3>{{ item.title }}</h3>
             <p>{{ item.text }}</p>
           </article>
@@ -130,7 +149,9 @@
       </ol>
 
       <div class="center reveal">
-        <a [href]="directUrl" target="_blank" rel="noopener" class="btn btn-primary">Quero dar o primeiro passo</a>
+        <a [href]="whatsappUrl" target="_blank" rel="noopener" class="btn btn-primary">
+          <app-icon name="whatsapp" [size]="20" /> Quero dar o primeiro passo
+        </a>
       </div>
     </div>
   </section>
@@ -162,26 +183,66 @@
         <p class="muted">Transformações de alunas que seguiram o planejamento com constância.</p>
       </div>
 
-      <div class="results">
-        @for (r of results; track r.alt) {
-          <figure class="result reveal">
-            <div class="result-frame">
-              @if (r.after) {
-                <img [src]="r.before" [alt]="r.alt + ' — antes'" loading="lazy" class="half" [style.object-position]="r.beforePos" />
-                <img [src]="r.after" [alt]="r.alt + ' — depois'" loading="lazy" class="half" [style.object-position]="r.afterPos" />
-              } @else {
-                <img [src]="r.before" [alt]="r.alt" loading="lazy" [style.object-position]="r.beforePos" />
-              }
-              <span class="tag tag-before">Antes</span>
-              <span class="tag tag-after">Depois</span>
-            </div>
-          </figure>
-        }
+      <div
+        class="carousel reveal"
+        role="region"
+        aria-roledescription="carrossel"
+        aria-label="Resultados de alunas"
+        (mouseenter)="pauseAutoplay(true)"
+        (mouseleave)="pauseAutoplay(false)"
+        (focusin)="pauseAutoplay(true)"
+        (focusout)="pauseAutoplay(false)"
+        (touchstart)="pauseAutoplay(true)"
+      >
+        <div class="carousel-track" #track (scroll)="onTrackScroll()">
+          @for (r of results; track r.alt; let i = $index) {
+            <figure
+              class="slide"
+              [class.active]="activeSlide() === i"
+              role="group"
+              aria-roledescription="slide"
+              [attr.aria-label]="(i + 1) + ' de ' + results.length"
+              (click)="select(i)"
+            >
+              <div class="result-frame">
+                @if (r.after) {
+                  <img [src]="r.before" [alt]="r.alt + ' — antes'" loading="lazy" class="half" [style.object-position]="r.beforePos" />
+                  <img [src]="r.after" [alt]="r.alt + ' — depois'" loading="lazy" class="half" [style.object-position]="r.afterPos" />
+                } @else {
+                  <img [src]="r.before" [alt]="r.alt" loading="lazy" [style.object-position]="r.beforePos" />
+                }
+                <span class="tag tag-before">Antes</span>
+                <span class="tag tag-after">Depois</span>
+              </div>
+            </figure>
+          }
+        </div>
+
+        <button type="button" class="carousel-btn prev" aria-label="Resultado anterior" (click)="prev()">
+          <app-icon name="chevron-left" [size]="24" />
+        </button>
+        <button type="button" class="carousel-btn next" aria-label="Próximo resultado" (click)="next()">
+          <app-icon name="chevron-right" [size]="24" />
+        </button>
+
+        <div class="dots">
+          @for (r of results; track r.alt; let i = $index) {
+            <button
+              type="button"
+              class="dot-btn"
+              [class.active]="activeSlide() === i"
+              [attr.aria-label]="'Ir para o resultado ' + (i + 1)"
+              [attr.aria-current]="activeSlide() === i"
+              (click)="select(i)"
+            ></button>
+          }
+        </div>
       </div>
-      <p class="swipe-hint">Deslize para ver as transformações →</p>
 
       <div class="center reveal">
-        <a [href]="directUrl" target="_blank" rel="noopener" class="btn btn-primary">Quero resultados assim</a>
+        <a [href]="whatsappUrl" target="_blank" rel="noopener" class="btn btn-primary">
+          <app-icon name="whatsapp" [size]="20" /> Quero resultados assim
+        </a>
       </div>
     </div>
   </section>
@@ -218,7 +279,11 @@
           </p>
         </blockquote>
         <figcaption>
-          <span class="stars">★★★★★</span>
+          <span class="stars" aria-label="5 estrelas">
+            @for (s of [1, 2, 3, 4, 5]; track s) {
+              <app-icon name="star" [size]="18" />
+            }
+          </span>
           <span>Aluna</span>
         </figcaption>
       </figure>
@@ -251,20 +316,18 @@
             <p class="plan-total">Valor total: <strong>{{ p.total }}</strong></p>
             <p class="plan-note">{{ p.note }}</p>
             <ul class="plan-list">
-              <li>Avaliação inicial</li>
-              <li>Treino individualizado no app</li>
-              <li>Suporte pelo WhatsApp</li>
-              <li>Análise de vídeos</li>
-              <li>Revisão conforme evolução</li>
+              @for (f of ['Avaliação inicial', 'Treino individualizado no app', 'Suporte pelo WhatsApp', 'Análise de vídeos', 'Revisão conforme evolução']; track f) {
+                <li><app-icon name="check" [size]="18" class="accent" />{{ f }}</li>
+              }
             </ul>
             <a
-              [href]="directUrl"
+              [href]="p.url"
               target="_blank"
               rel="noopener"
               class="btn"
               [class.btn-primary]="p.featured"
               [class.btn-outline]="!p.featured"
-            >Quero o plano {{ p.name }}</a>
+            ><app-icon name="whatsapp" [size]="18" /> Quero o plano {{ p.name }}</a>
           </article>
         }
       </div>
@@ -294,10 +357,16 @@
     <div class="container narrow center reveal">
       <h2>Vamos <span class="accent">começar</span>?</h2>
       <p class="lead">
-        Me chame no direct <strong>&#64;{{ instagramUser }}</strong> e conte o seu objetivo. O
-        primeiro passo é agora.
+        Me chame no WhatsApp ou no direct e conte o seu objetivo. O primeiro passo é agora.
       </p>
-      <a [href]="directUrl" target="_blank" rel="noopener" class="btn btn-primary btn-lg">Quero começar hoje</a>
+      <div class="final-actions">
+        <a [href]="whatsappUrl" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+          <app-icon name="whatsapp" [size]="22" /> Chamar no WhatsApp
+        </a>
+        <a [href]="instagramUrl" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">
+          <app-icon name="instagram" [size]="22" /> &#64;{{ instagramUser }}
+        </a>
+      </div>
     </div>
   </section>
 </main>
@@ -309,14 +378,24 @@
       <img src="logo.jpeg" alt="Vinícius Custódio" class="logo logo-footer" width="1600" height="533" loading="lazy" />
       <p class="muted">Personal Trainer • CREF 014918-G/GO</p>
     </div>
-    <a [href]="instagramUrl" target="_blank" rel="noopener" class="footer-ig">&#64;{{ instagramUser }}</a>
+    <div class="footer-links">
+      <a [href]="whatsappUrl" target="_blank" rel="noopener">
+        <app-icon name="whatsapp" [size]="20" /> {{ whatsappDisplay }}
+      </a>
+      <a [href]="instagramUrl" target="_blank" rel="noopener">
+        <app-icon name="instagram" [size]="20" /> &#64;{{ instagramUser }}
+      </a>
+    </div>
   </div>
   <p class="copyright">© {{ year }} Vinícius Custódio. Todos os direitos reservados.</p>
 </footer>
 
-<!-- Botão flutuante -->
-<a [href]="directUrl" target="_blank" rel="noopener" class="fab" aria-label="Falar no direct do Instagram">
-  <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true">
-    <path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 4.6a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 8.6a3.4 3.4 0 1 1 0-6.8 3.4 3.4 0 0 1 0 6.8zm5.4-9.9a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>
-  </svg>
-</a>
+<!-- Botões flutuantes -->
+<div class="fabs">
+  <a [href]="instagramUrl" target="_blank" rel="noopener" class="fab fab-ig" aria-label="Instagram">
+    <app-icon name="instagram" [size]="22" />
+  </a>
+  <a [href]="whatsappUrl" target="_blank" rel="noopener" class="fab fab-wa" aria-label="Falar no WhatsApp">
+    <app-icon name="whatsapp" [size]="30" />
+  </a>
+</div>
