@@ -45,6 +45,7 @@ const STROKE: Record<string, string[]> = {
   'chevron-left': ['m15 18-6-6 6-6'],
   'chevron-right': ['m9 18 6-6-6-6'],
   'arrow-right': ['M5 12h14', 'm12 5 7 7-7 7'],
+  play: ['M6 3 20 12 6 21 6 3z'],
 };
 
 const FILL: Record<string, string[]> = {

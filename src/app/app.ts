@@ -72,6 +72,21 @@ export class App {
     { icon: 'refresh', title: 'Revisão do treino', text: 'Ajustes conforme a sua evolução e as suas necessidades.' },
   ];
 
+  protected readonly appFeatures = [
+    { icon: 'video', title: 'Vídeo de cada exercício', text: 'Veja a execução correta antes de começar a série.' },
+    { icon: 'clipboard', title: 'Treino do dia organizado', text: 'Séries, repetições, intervalos e cargas na ordem certa.' },
+    { icon: 'trending-up', title: 'Sua evolução registrada', text: 'Anote as cargas e acompanhe a sua progressão treino após treino.' },
+    { icon: 'refresh', title: 'Ajustes direto no app', text: 'Quando o treino é revisado, a nova versão chega no seu celular.' },
+  ];
+
+  /** Exemplo ilustrativo exibido no celular da seção do app. */
+  protected readonly appWorkout = [
+    { name: 'Agachamento livre', sets: '4 × 10 · 90s', done: true },
+    { name: 'Leg press 45°', sets: '4 × 12 · 60s', done: true },
+    { name: 'Cadeira extensora', sets: '3 × 15 · 45s', done: false },
+    { name: 'Stiff com halteres', sets: '3 × 12 · 60s', done: false },
+  ];
+
   protected readonly steps = [
     { n: '01', title: 'Escolha e avaliação', text: 'Você escolhe o plano e preenche a avaliação inicial.' },
     { n: '02', title: 'Elaboração', text: 'Eu elaboro o seu treinamento com base nas suas informações.' },

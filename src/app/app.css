@@ -530,6 +530,231 @@ p {
   margin: 0;
 }
 
+/* APP MFIT */
+.app-grid {
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.app-features {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0 1.6rem;
+  display: grid;
+  gap: 1.1rem;
+}
+
+.app-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.app-features div {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-features span:not(.app-feature-icon) {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.app-feature-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(198, 244, 50, 0.1);
+  color: var(--accent);
+}
+
+.app-note {
+  color: #d4d4d8;
+  margin-bottom: 1.6rem;
+}
+
+.phone-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.phone-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 10% 5%;
+  background: radial-gradient(circle, rgba(198, 244, 50, 0.22), transparent 65%);
+  filter: blur(20px);
+}
+
+.phone {
+  position: relative;
+  width: 280px;
+  padding: 12px;
+  border-radius: 44px;
+  background: #050506;
+  border: 2px solid #2e2e36;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.9);
+  transform: rotate(-3deg);
+}
+
+.phone-notch {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 90px;
+  height: 24px;
+  border-radius: 999px;
+  background: #050506;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.phone-screen {
+  border-radius: 34px;
+  background: linear-gradient(180deg, #1b1b21, #121216);
+  padding: 3.2rem 1.1rem 1.3rem;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-kicker {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.phone-title {
+  margin: 0.2rem 0 0.9rem;
+  font-family: var(--head);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.phone-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  margin-bottom: 1.1rem;
+}
+
+.phone-progress span {
+  display: block;
+  width: 50%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+}
+
+.phone-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 auto;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.phone-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+}
+
+.phone-thumb {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2a2a33, #18181d);
+  color: var(--accent);
+}
+
+.phone-ex {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.phone-ex strong {
+  font-size: 0.82rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.phone-ex small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.phone-check {
+  margin-left: auto;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+  color: transparent;
+}
+
+.phone-list li.done .phone-check {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0b0b0d;
+}
+
+.phone-list li.done strong {
+  color: var(--muted);
+}
+
+.phone-btn {
+  margin-top: 1.2rem;
+  padding: 0.8rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #0b0b0d;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.phone-badge {
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  background: rgba(19, 19, 23, 0.95);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+}
+
+.phone-badge app-icon {
+  color: var(--accent);
+}
+
 /* STEPS */
 .steps {
   list-style: none;
@@ -1088,6 +1313,17 @@ p {
 }
 
 @media (max-width: 900px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .phone-badge {
+    left: 50%;
+    bottom: -0.5rem;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
   .menu-toggle {
     display: flex;
   }

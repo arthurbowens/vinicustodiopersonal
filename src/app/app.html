@@ -130,6 +130,68 @@
     </div>
   </section>
 
+  <!-- APP MFIT -->
+  <section id="app" class="section app-section">
+    <div class="container two-col app-grid">
+      <div class="reveal">
+        <p class="eyebrow">Seu treino no app MFIT</p>
+        <h2>Seu treino sempre com você, <span class="accent">na palma da mão</span>.</h2>
+        <p class="lead">
+          Todo o seu planejamento fica no <strong>MFIT</strong>, o aplicativo em que eu monto e envio os
+          treinos. Chegou na academia, abriu o app e já sabe exatamente o que fazer: sem ficha de
+          papel, sem print perdido na galeria e sem ficar adivinhando.
+        </p>
+
+        <ul class="app-features">
+          @for (f of appFeatures; track f.title) {
+            <li>
+              <span class="app-feature-icon"><app-icon [name]="f.icon" [size]="22" /></span>
+              <div>
+                <strong>{{ f.title }}</strong>
+                <span>{{ f.text }}</span>
+              </div>
+            </li>
+          }
+        </ul>
+
+        <p class="app-note">
+          É só baixar o MFIT, entrar com o acesso que eu te envio e começar. Simples assim.
+        </p>
+        <a [href]="whatsappUrl" target="_blank" rel="noopener" class="btn btn-primary">
+          <app-icon name="whatsapp" [size]="20" /> Quero meu treino no app
+        </a>
+      </div>
+
+      <div class="phone-wrap reveal" aria-hidden="true">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <p class="phone-kicker">Treino de hoje</p>
+            <p class="phone-title">Treino A · Inferiores</p>
+            <div class="phone-progress"><span></span></div>
+            <ul class="phone-list">
+              @for (ex of appWorkout; track ex.name) {
+                <li [class.done]="ex.done">
+                  <span class="phone-thumb"><app-icon name="play" [size]="14" /></span>
+                  <span class="phone-ex">
+                    <strong>{{ ex.name }}</strong>
+                    <small>{{ ex.sets }}</small>
+                  </span>
+                  <span class="phone-check"><app-icon name="check" [size]="14" /></span>
+                </li>
+              }
+            </ul>
+            <span class="phone-btn">Concluir treino</span>
+          </div>
+        </div>
+        <div class="phone-badge">
+          <app-icon name="video" [size]="18" />
+          Vídeo em cada exercício
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- COMO FUNCIONA -->
   <section id="como-funciona" class="section section-dark">
     <div class="container">
