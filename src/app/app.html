@@ -1,8 +1,13 @@
 <!-- HEADER -->
 <header class="header" [class.menu-open]="menuOpen()">
   <div class="container header-inner">
-    <a href="#inicio" class="brand" (click)="closeMenu()">
-      <img src="logo-site.jpg?v=2" alt="Vinícius Custódio Personal Trainer" class="logo" width="1544" height="346" />
+    <a href="#inicio" class="brand" aria-label="Vinícius Custódio Personal Trainer — início" (click)="closeMenu()">
+      <span class="brand-mark"><img src="logo-vc.jpg" alt="" width="608" height="325" /></span>
+      <span class="brand-text">
+        <span class="brand-l1">VINÍCIUS</span>
+        <span class="brand-l2">CUSTÓDIO</span>
+        <span class="brand-sub">Personal Trainer</span>
+      </span>
     </a>
 
     <nav class="nav" id="menu" [class.open]="menuOpen()" aria-label="Menu principal">
@@ -441,7 +446,14 @@
 <footer class="footer">
   <div class="container footer-inner">
     <div>
-      <img src="logo-site.jpg?v=2" alt="Vinícius Custódio" class="logo logo-footer" width="1544" height="346" loading="lazy" />
+      <span class="brand brand-footer" role="img" aria-label="Vinícius Custódio Personal Trainer">
+      <span class="brand-mark"><img src="logo-vc.jpg" alt="" width="608" height="325" loading="lazy" /></span>
+      <span class="brand-text">
+        <span class="brand-l1">VINÍCIUS</span>
+        <span class="brand-l2">CUSTÓDIO</span>
+        <span class="brand-sub">Personal Trainer</span>
+      </span>
+      </span>
       <p class="muted">Personal Trainer • CREF 014918-G/GO</p>
     </div>
     <div class="footer-links">
