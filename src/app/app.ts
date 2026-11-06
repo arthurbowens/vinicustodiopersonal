@@ -123,9 +123,9 @@ export class App {
       ],
     },
     {
-      name: 'Aluna',
-      initials: '',
-      role: 'Projeto em construção',
+      name: 'Jordana',
+      initials: 'J',
+      role: 'Aluna',
       text: [
         'Muito satisfeita com meus resultados! O Vinícius é um profissional de excelência, dedicado, muito prestativo, cauteloso, sempre elabora meu plano de treino dentro das minhas limitações!',
         'Sempre me cobra sabendo que eu consigo, sem nem mesmo eu acreditar! Observador e muito preciso nas execuções, nunca sinto nada mais que dores musculares, que é o primordial e esperado a cada treino!',
