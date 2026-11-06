@@ -173,7 +173,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 74px;
+  height: 88px;
 }
 
 .brand {
@@ -184,14 +184,14 @@ p {
 
 .logo {
   display: block;
-  height: 48px;
+  height: 62px;
   width: auto;
   /* o fundo preto da logo some sobre o fundo escuro */
   mix-blend-mode: screen;
 }
 
 .logo-footer {
-  height: 56px;
+  height: 64px;
 }
 
 .nav,
@@ -1312,18 +1312,8 @@ p {
   }
 }
 
-@media (max-width: 900px) {
-  .app-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .phone-badge {
-    left: 50%;
-    bottom: -0.5rem;
-    transform: translateX(-50%);
-    white-space: nowrap;
-  }
-
+/* menu hambúrguer: abaixo de 1180px os links não cabem ao lado da logo */
+@media (max-width: 1180px) {
   .menu-toggle {
     display: flex;
   }
@@ -1340,7 +1330,7 @@ p {
     flex-direction: column;
     align-items: stretch;
     gap: 1.2rem;
-    max-height: calc(100dvh - 74px);
+    max-height: calc(100dvh - 90px);
     overflow-y: auto;
     padding: 0.5rem 1.25rem 1.5rem;
     background: var(--bg);
@@ -1402,6 +1392,19 @@ p {
     opacity: 1;
     pointer-events: auto;
   }
+}
+
+@media (max-width: 900px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .phone-badge {
+    left: 50%;
+    bottom: -0.5rem;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
 
   .hero {
     padding: 3rem 0 4rem;
@@ -1447,7 +1450,11 @@ p {
   }
 
   .logo {
-    height: 40px;
+    height: 48px;
+  }
+
+  .header-inner {
+    height: 76px;
   }
 
   .plans {

@@ -43,12 +43,10 @@ export class App {
   protected readonly whatsappUrl = whatsappUrl(WHATSAPP_MESSAGE);
 
   protected readonly nav = [
-    { label: 'Início', href: '#inicio' },
     { label: 'Consultoria', href: '#consultoria' },
     { label: 'Como funciona', href: '#como-funciona' },
     { label: 'Resultados', href: '#resultados' },
     { label: 'Planos', href: '#planos' },
-    { label: 'Depoimentos', href: '#depoimentos' },
     { label: 'Dúvidas', href: '#duvidas' },
   ];
 
@@ -181,7 +179,7 @@ export class App {
 
   @HostListener('window:resize')
   protected onResize(): void {
-    if (window.innerWidth > 900) this.closeMenu();
+    if (window.innerWidth > 1180) this.closeMenu();
   }
 
   private lockScroll(lock: boolean): void {
