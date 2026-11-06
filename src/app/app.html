@@ -314,7 +314,7 @@
     </div>
   </section>
 
-  <!-- DEPOIMENTO -->
+  <!-- DEPOIMENTOS -->
   <section id="depoimentos" class="section">
     <div class="container">
       <div class="section-head reveal">
@@ -322,42 +322,36 @@
         <h2>Quem treina comigo <span class="accent">sente a diferença</span>.</h2>
       </div>
 
-      <figure class="testimonial reveal">
-        <span class="quote-mark">“</span>
-        <blockquote>
-          <p>
-            Falar do seu trabalho é falar de profissionalismo, dedicação e, principalmente, de muito
-            alto astral! ✨💪
-          </p>
-          <p>
-            Cada treino é diferente, desafiador e, ao mesmo tempo, leve e prazeroso. Sua energia
-            contagiante, seu incentivo constante e a forma como você acompanha cada detalhe fazem toda
-            a diferença.
-          </p>
-          <p>
-            Você não entrega apenas um treino: entrega motivação, confiança e vontade de superar
-            limites. É aquele profissional que consegue transformar a obrigação de treinar em um
-            momento que a gente realmente espera chegar.
-          </p>
-          <p>
-            Parabéns pelo excelente trabalho, pela competência e por colocar tanta energia e alegria em
-            tudo o que faz! Quem treina com você sabe o quanto faz diferença ter um profissional tão
-            dedicado e alto astral ao nosso lado. 👏🏼🏋️‍♀️✨
-          </p>
-        </blockquote>
-        <figcaption>
-          <span class="avatar" aria-hidden="true">MA</span>
-          <span class="author">
-            <strong>Maria Auxiliadora</strong>
-            <span>Aluna</span>
-          </span>
-          <span class="stars" aria-label="5 estrelas">
-            @for (s of [1, 2, 3, 4, 5]; track s) {
-              <app-icon name="star" [size]="18" />
-            }
-          </span>
-        </figcaption>
-      </figure>
+      <div class="testimonials">
+        @for (t of testimonials; track t.name + $index) {
+          <figure class="testimonial reveal">
+            <span class="quote-mark">“</span>
+            <blockquote>
+              @for (p of t.text; track $index) {
+                <p>{{ p }}</p>
+              }
+            </blockquote>
+            <figcaption>
+              <span class="avatar" aria-hidden="true">
+                @if (t.initials) {
+                  {{ t.initials }}
+                } @else {
+                  <app-icon name="user" [size]="22" />
+                }
+              </span>
+              <span class="author">
+                <strong>{{ t.name }}</strong>
+                <span>{{ t.role }}</span>
+              </span>
+              <span class="stars" aria-label="5 estrelas">
+                @for (s of [1, 2, 3, 4, 5]; track s) {
+                  <app-icon name="star" [size]="16" />
+                }
+              </span>
+            </figcaption>
+          </figure>
+        }
+      </div>
     </div>
   </section>
 

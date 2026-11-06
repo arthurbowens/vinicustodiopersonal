@@ -109,6 +109,32 @@ export class App {
     { before: 'resultado3antes.jpeg', after: 'resultado3dps.jpeg', alt: 'Resultado de aluna 3', beforePos: '80% center', afterPos: '53% center' },
   ];
 
+  /** Depoimentos reais de alunas (texto enviado por elas, só com ajustes de pontuação). */
+  protected readonly testimonials = [
+    {
+      name: 'Maria Auxiliadora',
+      initials: 'MA',
+      role: 'Aluna',
+      text: [
+        'Falar do seu trabalho é falar de profissionalismo, dedicação e, principalmente, de muito alto astral! ✨💪',
+        'Cada treino é diferente, desafiador e, ao mesmo tempo, leve e prazeroso. Sua energia contagiante, seu incentivo constante e a forma como você acompanha cada detalhe fazem toda a diferença.',
+        'Você não entrega apenas um treino: entrega motivação, confiança e vontade de superar limites. É aquele profissional que consegue transformar a obrigação de treinar em um momento que a gente realmente espera chegar.',
+        'Parabéns pelo excelente trabalho, pela competência e por colocar tanta energia e alegria em tudo o que faz! Quem treina com você sabe o quanto faz diferença ter um profissional tão dedicado e alto astral ao nosso lado. 👏🏼🏋️‍♀️✨',
+      ],
+    },
+    {
+      name: 'Aluna',
+      initials: '',
+      role: 'Projeto em construção',
+      text: [
+        'Muito satisfeita com meus resultados! O Vinícius é um profissional de excelência, dedicado, muito prestativo, cauteloso, sempre elabora meu plano de treino dentro das minhas limitações!',
+        'Sempre me cobra sabendo que eu consigo, sem nem mesmo eu acreditar! Observador e muito preciso nas execuções, nunca sinto nada mais que dores musculares, que é o primordial e esperado a cada treino!',
+        'Com a ajuda do Vinícius eu recuperei minha saúde mental e minha autoestima! E digo mais: estamos apenas no começo. Com um profissional desse me acompanhando, sei que posso conseguir muito mais! Projeto em construção!',
+        'Sou muito grata a ele por todo o carinho e dedicação com que cuida de mim!',
+      ],
+    },
+  ];
+
   protected readonly plans = [
     { name: 'Mensal', duration: '1 mês', total: 'R$ 160', monthly: '160', note: 'Ideal para começar', featured: false },
     { name: 'Trimestral', duration: '3 meses', total: 'R$ 420', monthly: '140', note: 'Economia de R$ 60', featured: false },
