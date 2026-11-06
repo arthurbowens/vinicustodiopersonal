@@ -398,18 +398,18 @@ p {
   background: rgba(19, 19, 23, 0.92);
   backdrop-filter: blur(10px);
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 0.9rem 1.1rem;
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.7);
 }
 
 /* selo e cartão ficam na parte de baixo da foto para não cobrir o rosto */
 .badge-card {
-  bottom: 6.6rem;
-  left: -1.5rem;
+  bottom: 4.6rem;
+  left: -1.2rem;
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.5rem;
 }
 
 .badge-card div {
@@ -417,23 +417,29 @@ p {
   flex-direction: column;
 }
 
+.badge-card strong,
+.floating-card strong {
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
 .badge-card strong {
   color: var(--accent);
-  font-size: 0.95rem;
 }
 
 .badge-card span,
 .floating-card span {
-  font-size: 0.8rem;
+  font-size: 0.68rem;
+  line-height: 1.3;
   color: var(--muted);
 }
 
 .floating-card {
-  bottom: 1.5rem;
-  right: -1.5rem;
+  bottom: 1.2rem;
+  right: -1.2rem;
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.55rem;
   transition: transform 0.2s;
 }
 
@@ -449,8 +455,8 @@ p {
 .wa-dot {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: #25d366;
   color: #fff;
@@ -1455,7 +1461,7 @@ p {
 
   .badge-card {
     left: -0.5rem;
-    bottom: 5.8rem;
+    bottom: 4rem;
   }
 
   .floating-card {
